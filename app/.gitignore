@@ -29,7 +29,8 @@ shot_tabs.sh
 shot_tabs2.sh
 verify_visual.sh
 
-# ---- 编辑器 / 系统 ----
+# ---- 工具运行时产物 ----
+.mimosa/
 .idea/
 *.iml
 .DS_Store

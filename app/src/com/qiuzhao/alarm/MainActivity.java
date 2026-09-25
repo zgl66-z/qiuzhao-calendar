@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -50,7 +51,11 @@ public class MainActivity extends Activity {
     private static final int LINE = 0xFFE4E9F2;
     private static final int PAGE = 0xFFF6F8FB;
     private static final int GREEN = 0xFF1E7B4D;
+    private static final int GREEN_L = 0xFFE8F5EE;
     private static final int RED = 0xFFC0392B;
+    private static final int RED_L = 0xFFFBE9E7;
+    private static final int ORANGE = 0xFFE67E22;
+    private static final int ORANGE_L = 0xFFFDF2E3;
     private static final int STROKE = 0xFFCFD8E6;
 
     private static final int LIST_LIMIT = 25;
@@ -62,8 +67,10 @@ public class MainActivity extends Activity {
     private int tab = 0;
 
     // 事件页
-    private LinearLayout headerView;
+    private FrameLayout headerView;
     private TextView headerMeta;
+    private StatBox statToday;
+    private StatBox statWeek;
     private LinearLayout listBox;
     private LinearLayout addBody;
     private LinearLayout mineBody;
@@ -260,6 +267,9 @@ public class MainActivity extends Activity {
     private ScrollView newPage() {
         ScrollView sc = new ScrollView(this);
         sc.setBackgroundColor(PAGE);
+        // 不裁剪子 View 阴影，让卡片 elevation 可见
+        sc.setClipToPadding(false);
+        sc.setClipChildren(false);
         LinearLayout v = new LinearLayout(this);
         v.setOrientation(LinearLayout.VERTICAL);
         sc.addView(v);
@@ -305,36 +315,107 @@ public class MainActivity extends Activity {
         return sc;
     }
 
-    private LinearLayout buildHeader() {
-        LinearLayout header = new LinearLayout(this);
-        header.setOrientation(LinearLayout.VERTICAL);
+    private FrameLayout buildHeader() {
+        // 头图用 FrameLayout：渐变底 + 两个半透明装饰圆 + 内容
+        FrameLayout header = new FrameLayout(this);
         GradientDrawable bg = new GradientDrawable(
                 GradientDrawable.Orientation.TL_BR, new int[]{BLUE, BLUE_MID});
         float r = dp(20);
         bg.setCornerRadii(new float[]{0, 0, 0, 0, r, r, r, r});
         header.setBackground(bg);
-        header.setPadding(dp(20), dp(14), dp(20), dp(20));
+
+        // 装饰圆：右上角大、左下角小，制造层次感
+        View c1 = circle(dp(150), 0x12FFFFFF);
+        FrameLayout.LayoutParams c1l = new FrameLayout.LayoutParams(dp(150), dp(150));
+        c1l.gravity = Gravity.TOP | Gravity.RIGHT;
+        c1l.topMargin = -dp(40);
+        c1l.rightMargin = -dp(30);
+        header.addView(c1, c1l);
+
+        View c2 = circle(dp(70), 0x0FFFFFFF);
+        FrameLayout.LayoutParams c2l = new FrameLayout.LayoutParams(dp(70), dp(70));
+        c2l.gravity = Gravity.BOTTOM | Gravity.LEFT;
+        c2l.bottomMargin = dp(8);
+        c2l.leftMargin = -dp(16);
+        header.addView(c2, c2l);
+
+        LinearLayout inner = new LinearLayout(this);
+        inner.setOrientation(LinearLayout.VERTICAL);
+        inner.setPadding(dp(20), dp(14), dp(20), dp(20));
+        header.addView(inner, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
         TextView t = new TextView(this);
         t.setText("别错过");
         t.setTextSize(21);
         t.setTextColor(Color.WHITE);
         t.setTypeface(Typeface.DEFAULT_BOLD);
-        header.addView(t);
+        inner.addView(t);
 
         TextView sub = new TextView(this);
         sub.setText("截止日与每日打卡 · 静音与震动模式下也会响");
         sub.setTextSize(12.5f);
         sub.setTextColor(0xFFCFE0FF);
         sub.setPadding(0, dp(6), 0, 0);
-        header.addView(sub);
+        inner.addView(sub);
 
+        // 统计徽章行：今日 / 本周
+        LinearLayout statRow = new LinearLayout(this);
+        statRow.setOrientation(LinearLayout.HORIZONTAL);
+        statRow.setPadding(0, dp(14), 0, 0);
+        inner.addView(statRow);
+
+        statToday = statBlock(statRow, "今日提醒", true);
+        statWeek = statBlock(statRow, "本周提醒", false);
         headerMeta = new TextView(this);
         headerMeta.setTextSize(12);
         headerMeta.setTextColor(0xFFE8F0FF);
         headerMeta.setPadding(0, dp(12), 0, 0);
-        header.addView(headerMeta);
+        inner.addView(headerMeta);
+
         return header;
+    }
+
+    /** 头图里一个半透明白底的统计块：大数字 + 小标签。 */
+    private StatBox statBlock(LinearLayout parent, String label, boolean left) {
+        LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.VERTICAL);
+        box.setGravity(Gravity.CENTER);
+        box.setBackground(shape(0x1FFFFFFF, 14, 0, 0));
+        box.setPadding(dp(14), dp(10), dp(14), dp(10));
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
+        if (left) {
+            lp.rightMargin = dp(8);
+        } else {
+            lp.leftMargin = dp(8);
+        }
+        parent.addView(box, lp);
+
+        TextView num = new TextView(this);
+        num.setText("0");
+        num.setTextSize(20);
+        num.setTextColor(Color.WHITE);
+        num.setTypeface(Typeface.DEFAULT_BOLD);
+        box.addView(num);
+
+        TextView lb = new TextView(this);
+        lb.setText(label);
+        lb.setTextSize(10.5f);
+        lb.setTextColor(0xFFCFE0FF);
+        box.addView(lb);
+        return new StatBox(box, num);
+    }
+
+    /** 头图统计块：容器 + 数字文本。 */
+    private static final class StatBox {
+        final LinearLayout box;
+        final TextView num;
+        StatBox(LinearLayout box, TextView num) {
+            this.box = box;
+            this.num = num;
+        }
     }
 
     // ------------------------------------------------------------ 添加页
@@ -360,12 +441,10 @@ public class MainActivity extends Activity {
         l1.setTextColor(GRAY);
         form.addView(l1);
 
-        remTimeBox = new EditText(this);
+        remTimeBox = field();
         remTimeBox.setText("21:00");
         remTimeBox.setTextSize(14);
         remTimeBox.setInputType(InputType.TYPE_CLASS_DATETIME);
-        remTimeBox.setBackground(shape(PAGE, 8, LINE, 1));
-        remTimeBox.setPadding(dp(12), dp(10), dp(12), dp(10));
         LinearLayout.LayoutParams tl = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         tl.topMargin = dp(6);
@@ -378,12 +457,10 @@ public class MainActivity extends Activity {
         l2.setTextColor(GRAY);
         form.addView(l2);
 
-        remTitleBox = new EditText(this);
+        remTitleBox = field();
         remTitleBox.setHint("例如 多邻国打卡");
         remTitleBox.setTextSize(14);
         remTitleBox.setSingleLine(true);
-        remTitleBox.setBackground(shape(PAGE, 8, LINE, 1));
-        remTitleBox.setPadding(dp(12), dp(10), dp(12), dp(10));
         LinearLayout.LayoutParams t2 = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         t2.topMargin = dp(6);
@@ -487,12 +564,10 @@ public class MainActivity extends Activity {
         perm.addView(note);
 
         LinearLayout url = card(content, "ICS 地址", "一般不用改");
-        urlBox = new EditText(this);
+        urlBox = field();
         urlBox.setText(Sched.url(this));
         urlBox.setTextSize(11.5f);
         urlBox.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
-        urlBox.setBackground(shape(PAGE, 8, LINE, 1));
-        urlBox.setPadding(dp(10), dp(9), dp(10), dp(9));
         url.addView(urlBox);
         Button save = ghost("保存地址并同步", new View.OnClickListener() {
             @Override
@@ -536,10 +611,53 @@ public class MainActivity extends Activity {
         return d;
     }
 
+    private GradientDrawable grad(int c1, int c2, float radiusDp) {
+        GradientDrawable d = new GradientDrawable(
+                GradientDrawable.Orientation.TL_BR, new int[]{c1, c2});
+        d.setCornerRadius(dp(radiusDp));
+        return d;
+    }
+
+    /** 普通 / 按压 两种背景切换。 */
+    private StateListDrawable pressable(GradientDrawable normal, GradientDrawable pressed) {
+        StateListDrawable sd = new StateListDrawable();
+        sd.addState(new int[]{android.R.attr.state_pressed}, pressed);
+        sd.addState(new int[]{}, normal);
+        return sd;
+    }
+
+    private View circle(int sizeDp, int color) {
+        View v = new View(this);
+        GradientDrawable d = new GradientDrawable();
+        d.setShape(GradientDrawable.OVAL);
+        d.setColor(color);
+        v.setBackground(d);
+        return v;
+    }
+
+    private EditText field() {
+        EditText et = new EditText(this);
+        et.setBackground(shape(0xFFFFFFFF, 8, LINE, 1));
+        et.setPadding(dp(12), dp(10), dp(12), dp(10));
+        et.setTextColor(INK);
+        et.setHintTextColor(GRAY);
+        // 聚焦时描边变蓝，背景微蓝
+        et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                v.setBackground(hasFocus
+                        ? shape(0xFFF7FAFF, 8, BLUE_MID, 1)
+                        : shape(0xFFFFFFFF, 8, LINE, 1));
+            }
+        });
+        return et;
+    }
+
     private LinearLayout card(LinearLayout parent, String title, String hint) {
         LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.VERTICAL);
-        box.setBackground(shape(0xFFFFFFFF, 12, LINE, 1));
+        box.setBackground(shape(0xFFFFFFFF, 14, LINE, 1));
+        box.setElevation(dp(2));
         box.setPadding(dp(15), dp(14), dp(15), dp(14));
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -576,7 +694,7 @@ public class MainActivity extends Activity {
         btn.setAllCaps(false);
         btn.setTextSize(15);
         btn.setTextColor(Color.WHITE);
-        btn.setBackground(shape(BLUE, 10, 0, 0));
+        btn.setBackground(pressable(grad(BLUE, BLUE_MID, 12), grad(0xFF1B3C73, BLUE, 12)));
         btn.setStateListAnimator(null);
         btn.setOnClickListener(l);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -592,7 +710,9 @@ public class MainActivity extends Activity {
         btn.setAllCaps(false);
         btn.setTextSize(14);
         btn.setTextColor(BLUE);
-        btn.setBackground(shape(0xFFFFFFFF, 10, STROKE, 1));
+        btn.setBackground(pressable(
+                shape(0xFFFFFFFF, 10, STROKE, 1),
+                shape(0xFFEAF1FB, 10, BLUE_MID, 1)));
         btn.setStateListAnimator(null);
         btn.setOnClickListener(l);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -612,6 +732,18 @@ public class MainActivity extends Activity {
 
     // ------------------------------------------------------------ 动态内容
 
+    /** 距离目标时间的人类化倒计时标签。 */
+    private static String countdown(long trigger, long now) {
+        long diff = trigger - now;
+        if (diff < 0) return "已到";
+        long day = 86_400_000L;
+        if (diff < day) return "今天";
+        if (diff < 2 * day) return "明天";
+        long d = diff / day;
+        if (d > 30) return ">30天";
+        return d + "天后";
+    }
+
     private void fillList() {
         listBox.removeAllViews();
         List<Sched.Up> rows = Sched.upcoming(this, System.currentTimeMillis());
@@ -625,33 +757,63 @@ public class MainActivity extends Activity {
         }
         SimpleDateFormat full = new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA);
         SimpleDateFormat hmOnly = new SimpleDateFormat("HH:mm", Locale.CHINA);
+        long now = System.currentTimeMillis();
         int n = 0;
         for (Sched.Up u : rows) {
             if (n >= LIST_LIMIT) break;
             if (n > 0) listBox.addView(divider());
 
             LinearLayout row = new LinearLayout(this);
-            row.setOrientation(LinearLayout.VERTICAL);
+            row.setOrientation(LinearLayout.HORIZONTAL);
+            row.setGravity(Gravity.CENTER_VERTICAL);
             row.setPadding(0, dp(9), 0, dp(9));
 
+            // 时间胶囊（绿=每日提醒，蓝=截止日）
             TextView time = new TextView(this);
             time.setText(u.daily
                     ? "每日 " + hmOnly.format(new Date(u.trigger))
                     : full.format(new Date(u.trigger)));
-            time.setTextSize(12);
+            time.setTextSize(11.5f);
             time.setTextColor(u.daily ? GREEN : BLUE);
             time.setTypeface(Typeface.DEFAULT_BOLD);
-            time.setBackground(shape(u.daily ? 0xFFE8F5EE : BLUE_L, 6, 0, 0));
-            time.setPadding(dp(8), dp(3), dp(8), dp(3));
+            time.setBackground(shape(u.daily ? GREEN_L : BLUE_L, 7, 0, 0));
+            time.setPadding(dp(8), dp(4), dp(8), dp(4));
             row.addView(time);
 
+            // 标题，占满剩余空间
             TextView title = new TextView(this);
             title.setText(u.title);
             title.setTextSize(13.5f);
             title.setTextColor(INK);
             title.setLineSpacing(dp(3), 1f);
-            title.setPadding(0, dp(6), 0, 0);
-            row.addView(title);
+            title.setPadding(dp(10), 0, dp(6), 0);
+            row.addView(title, new LinearLayout.LayoutParams(0,
+                    ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+            // 倒计时标签（每日提醒不显示，一直在）
+            if (!u.daily) {
+                String cd = countdown(u.trigger, now);
+                int cdColor;
+                int cdBg;
+                if ("已到".equals(cd)) {
+                    cdColor = RED;
+                    cdBg = RED_L;
+                } else if ("今天".equals(cd) || "明天".equals(cd)) {
+                    cdColor = ORANGE;
+                    cdBg = ORANGE_L;
+                } else {
+                    cdColor = GRAY;
+                    cdBg = 0xFFEFF2F6;
+                }
+                TextView cdt = new TextView(this);
+                cdt.setText(cd);
+                cdt.setTextSize(11.5f);
+                cdt.setTextColor(cdColor);
+                cdt.setTypeface(Typeface.DEFAULT_BOLD);
+                cdt.setBackground(shape(cdBg, 7, 0, 0));
+                cdt.setPadding(dp(8), dp(4), dp(8), dp(4));
+                row.addView(cdt);
+            }
 
             listBox.addView(row);
             n++;
@@ -691,7 +853,7 @@ public class MainActivity extends Activity {
             time.setTextSize(12);
             time.setTextColor(GREEN);
             time.setTypeface(Typeface.DEFAULT_BOLD);
-            time.setBackground(shape(0xFFE8F5EE, 6, 0, 0));
+            time.setBackground(shape(GREEN_L, 6, 0, 0));
             time.setPadding(dp(8), dp(3), dp(8), dp(3));
             row.addView(time);
 
@@ -740,13 +902,49 @@ public class MainActivity extends Activity {
         permBox.addView(permLine(ig, "电池白名单", "未加则后台可能被杀"));
     }
 
-    private TextView permLine(boolean ok, String name, String why) {
-        TextView t = new TextView(this);
-        t.setText((ok ? "✓ " : "✗ ") + name + (ok ? "" : "　" + why));
-        t.setTextSize(12.5f);
-        t.setTextColor(ok ? GREEN : RED);
-        t.setPadding(0, dp(2), 0, dp(2));
-        return t;
+    /** 权限状态行：左侧状态圆徽章 + 名称/说明 + 右侧状态词。 */
+    private LinearLayout permLine(boolean ok, String name, String why) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(0, dp(5), 0, dp(5));
+
+        TextView badge = new TextView(this);
+        badge.setText(ok ? "✓" : "✗");
+        badge.setTextSize(11);
+        badge.setTextColor(ok ? GREEN : RED);
+        badge.setTypeface(Typeface.DEFAULT_BOLD);
+        badge.setGravity(Gravity.CENTER);
+        badge.setBackground(shape(ok ? GREEN_L : RED_L, 999, 0, 0));
+        row.addView(badge, new LinearLayout.LayoutParams(dp(22), dp(22)));
+
+        LinearLayout txt = new LinearLayout(this);
+        txt.setOrientation(LinearLayout.VERTICAL);
+        txt.setPadding(dp(10), 0, 0, 0);
+        TextView nm = new TextView(this);
+        nm.setText(name);
+        nm.setTextSize(13);
+        nm.setTextColor(INK);
+        nm.setTypeface(Typeface.DEFAULT_BOLD);
+        txt.addView(nm);
+        TextView wh = new TextView(this);
+        wh.setText(why);
+        wh.setTextSize(11);
+        wh.setTextColor(GRAY);
+        txt.addView(wh);
+        row.addView(txt, new LinearLayout.LayoutParams(0,
+                ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+        TextView st = new TextView(this);
+        st.setText(ok ? "已开启" : "去开启");
+        st.setTextSize(11.5f);
+        st.setTextColor(ok ? GREEN : RED);
+        st.setTypeface(Typeface.DEFAULT_BOLD);
+        st.setBackground(shape(ok ? GREEN_L : RED_L, 7, 0, 0));
+        st.setPadding(dp(8), dp(4), dp(8), dp(4));
+        row.addView(st);
+
+        return row;
     }
 
     // ------------------------------------------------------------ 行为
@@ -828,6 +1026,7 @@ public class MainActivity extends Activity {
         status.setText(last == null || last.isEmpty() ? "尚未同步，到「我的」页点「立即同步」." : last);
 
         List<Sched.Up> rows = Sched.upcoming(this, System.currentTimeMillis());
+        long now = System.currentTimeMillis();
         long next = rows.isEmpty() ? 0L : rows.get(0).trigger;
         if (next > 0) {
             SimpleDateFormat f = new SimpleDateFormat("MM-dd HH:mm", Locale.CHINA);
@@ -837,8 +1036,25 @@ public class MainActivity extends Activity {
             headerMeta.setText("尚无待提醒项");
         }
 
+        // 统计徽章：今日（24h 内）/ 本周（7 天内）
+        int today = 0;
+        int week = 0;
+        long day = 86_400_000L;
+        for (Sched.Up u : rows) {
+            long d = u.trigger - now;
+            if (d >= 0 && d < day) today++;
+            if (d >= 0 && d < 7 * day) week++;
+        }
+        setStat(statToday, today);
+        setStat(statWeek, week);
+
         fillPerms();
         fillList();
         fillRems();
+    }
+
+    private void setStat(StatBox v, int n) {
+        if (v == null) return;
+        v.num.setText(String.valueOf(n));
     }
 }
