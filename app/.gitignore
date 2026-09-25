@@ -1,0 +1,36 @@
+# ---- 签名密钥：绝对不要提交 ----
+# 它决定"是不是同一个 App"。泄露它等于别人可以签出能覆盖安装到你手机上的包。
+# build.sh 检测到缺失会自动用 keytool 重新生成，所以新人克隆后直接构建即可。
+keystore.p12
+
+# ---- 本机路径覆盖（ANDROID_SDK_ROOT、adb 路径等）----
+local.env
+
+# ---- 构建产物与中间件 ----
+build/
+testout/
+*.apk
+*.apk.idsig
+
+# ---- 本机专用的一次性排查脚本 ----
+# 这些脚本里写死了本机的 adb 路径、屏幕分辨率、vivo 机型等，不适合给别人用。
+# 仓库里保留三个通用脚本：build.sh / run_test.sh / verify.sh
+build_only.sh
+check_header.sh
+check_name.sh
+compile_check.sh
+device_test.sh
+inset_probe.sh
+install_and_shot.sh
+install_verify.sh
+measure_nav.sh
+shot_remcard.sh
+shot_tabs.sh
+shot_tabs2.sh
+verify_visual.sh
+
+# ---- 编辑器 / 系统 ----
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
