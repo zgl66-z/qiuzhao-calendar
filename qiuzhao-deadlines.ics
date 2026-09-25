@@ -287,4 +287,186 @@ DESCRIPTION:明天 【春招启动】银行科技 运营商 电网二批
   关键期
 END:VALARM
 END:VEVENT
+BEGIN:VEVENT
+UID:8bd02dabc675b35e@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261009T090000
+DTEND;TZID=Asia/Shanghai:20261009T093000
+SUMMARY:【计划·第二批投递】闻泰科技 龙旗科技 立讯精
+ 密 涂鸦智能 TCL 创维 京东方
+DESCRIPTION:这些公司多为官网滚动招聘无硬截止 拖久了
+ 名额会被占；简历见 定制简历-秋招 文件夹（闻泰 龙
+ 旗 立讯 涂鸦 已有定制版）
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·第二批投递】闻泰科技 龙旗
+ 科技 立讯精密 涂鸦智能 TCL 创维 京东方
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第二批投递】闻泰科技 龙旗科
+ 技 立讯精密 涂鸦智能 TCL 创维 京东方
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:5bac68e03db971d5@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261012T090000
+DTEND;TZID=Asia/Shanghai:20261012T093000
+SUMMARY:【计划·音频线专项】安克创新 漫步者 万魔声学
+  韶音科技 豪恩声学 天键电声 国光电器 共达电声
+DESCRIPTION:这是你差异化最强的一条线（TWS 电声测试对
+ 口）看到测试岗就投；安克与韶音已有定制简历
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·音频线专项】安克创新 漫步
+ 者 万魔声学 韶音科技 豪恩声学 天键电声 国光电器 共
+ 达电声
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·音频线专项】安克创新 漫步者 
+ 万魔声学 韶音科技 豪恩声学 天键电声 国光电器 共达
+ 电声
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b69bc703f42b8633@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261016T090000
+DTEND;TZID=Asia/Shanghai:20261016T093000
+SUMMARY:【计划·第三批投递】海康威视 大华股份 网易 
+ 比亚迪 OPPO 瑞声科技 歌尔股份
+DESCRIPTION:已投的跟进进度 未投的补投；瑞声面试9月中
+ 下旬起 歌尔精英计划进行中
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·第三批投递】海康威视 大华
+ 股份 网易 比亚迪 OPPO 瑞声科技 歌尔股份
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第三批投递】海康威视 大华股
+ 份 网易 比亚迪 OPPO 瑞声科技 歌尔股份
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:65cfa22ab9fe07c0@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261019T090000
+DTEND;TZID=Asia/Shanghai:20261019T093000
+SUMMARY:【准备】银行笔试备考 行测+计算机基础+英语
+DESCRIPTION:建行/建信金科笔试在10月底（线下统一组织）
+ 银行系笔试都要考行测 提前两周开始刷
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【准备】银行笔试备考 行测+计算机
+ 基础+英语
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【准备】银行笔试备考 行测+计算机基础
+ +英语
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:5eca4dcb7eee31b4@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261023T090000
+DTEND;TZID=Asia/Shanghai:20261023T093000
+SUMMARY:【计划·第四批投递】冲刺线 华为OD vivo 京东 美
+ 团 拼多多 快手
+DESCRIPTION:测试/测试开发岗为主 大厂流程长 越早投越好
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·第四批投递】冲刺线 华为OD v
+ ivo 京东 美团 拼多多 快手
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第四批投递】冲刺线 华为OD vivo 
+ 京东 美团 拼多多 快手
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:0d2cb81a5161d0c6@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261030T090000
+DTEND;TZID=Asia/Shanghai:20261030T093000
+SUMMARY:【计划·第五批投递】银行科技第二批 工银科技 
+ 农银金科 中银金科 交银金科 兴业数金 中电金信
+DESCRIPTION:银行科技测试岗量大 对双非友好 江财背景有
+ 加成
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·第五批投递】银行科技第二
+ 批 工银科技 农银金科 中银金科 交银金科 兴业数金 中
+ 电金信
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第五批投递】银行科技第二批 
+ 工银科技 农银金科 中银金科 交银金科 兴业数金 中电
+ 金信
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:2f62883a3fd8fb75@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261106T090000
+DTEND;TZID=Asia/Shanghai:20261106T093000
+SUMMARY:【计划·第六批投递】国企院所与电网产业 南瑞
+ 集团 国网信通产业集团 麒麟软件 太极股份 中国信科 
+ 中国商飞
+DESCRIPTION:本科可投的国企线 太极股份与麒麟软件已有
+ 定制简历
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划·第六批投递】国企院所与电
+ 网产业 南瑞集团 国网信通产业集团 麒麟软件 太极股
+ 份 中国信科 中国商飞
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第六批投递】国企院所与电网产
+ 业 南瑞集团 国网信通产业集团 麒麟软件 太极股份 中
+ 国信科 中国商飞
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:5919a5fe542e24f5@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261120T090000
+DTEND;TZID=Asia/Shanghai:20261120T093000
+SUMMARY:【计划】秋招补录扫尾 + 招银网络科技补录 + 中
+ 小硬件公司
+DESCRIPTION:清点已投未回音的公司 追问进度；关注各公
+ 司补录公告与第二批
+BEGIN:VALARM
+TRIGGER:-P3D
+ACTION:DISPLAY
+DESCRIPTION:提前3天 【计划】秋招补录扫尾 + 招银网络科
+ 技补录 + 中小硬件公司
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划】秋招补录扫尾 + 招银网络科技
+ 补录 + 中小硬件公司
+END:VALARM
+END:VEVENT
 END:VCALENDAR
