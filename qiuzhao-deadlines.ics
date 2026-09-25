@@ -491,4 +491,195 @@ ACTION:DISPLAY
 DESCRIPTION:今天：【每日投递】今天投 2~3 家中小厂
 END:VALARM
 END:VEVENT
+BEGIN:VEVENT
+UID:a55f0ffbc47b7d67@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261015T090000
+DTEND;TZID=Asia/Shanghai:20261015T093000
+SUMMARY:【截止】网易 网申截止（雷火 10-15）
+DESCRIPTION:雷火入口 leihuo.163.com/campus；笔试 8-10 月分批 
+ 部分岗位无笔试；简历用 定制简历（已备好）
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】网易 网申截止（雷火 10-15）
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】网易 网申截止（雷火 10-15）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:113a3146a43b47f8@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261018T090000
+DTEND;TZID=Asia/Shanghai:20261018T093000
+SUMMARY:【截止】华勤技术 网申截止
+DESCRIPTION:测试工程师 上海/无锡/东莞/南昌/宁波；入口 
+ jobs.huaqin.com；注意网申后 5 天内必须完成线上考试+测
+ 评（你的测评另有通知 9-30 16:31 截止）；简历用 定制
+ 简历（已备好）
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】华勤技术 网申截止
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】华勤技术 网申截止
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:df0f76882b9e7eb5@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261019T090000
+DTEND;TZID=Asia/Shanghai:20261019T093000
+SUMMARY:【截止】豪恩声学 2027届网申（深圳坪山）
+DESCRIPTION:声学测试/硬件测试管培生 招41人 本科可投 与
+ 你的耳机测试实习直接对口；入口 www.szhorn.com 校园招
+ 聘 或公众号「豪恩声学」；简历用 定制简历（已备好
+ ） 改意向
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】豪恩声学 2027届网申（深圳
+ 坪山）
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】豪恩声学 2027届网申（深圳坪山
+ ）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:61b6a7d9c961838d@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261023T090000
+DTEND;TZID=Asia/Shanghai:20261023T093000
+SUMMARY:【截止】均胜电子 星驰计划 网申
+DESCRIPTION:产品测试工程师（上海/宁波）、软件测试工
+ 程师（宁波）；入口 app.mokahr.com/campus-recruitment/joyson/943
+ 11；简历用 定制简历（已备好） 改意向
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】均胜电子 星驰计划 网申
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】均胜电子 星驰计划 网申
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:37a6efa8f029aeba@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261026T090000
+DTEND;TZID=Asia/Shanghai:20261026T093000
+SUMMARY:【截止】TCL实业 网申（大显示制造管理平台）
+DESCRIPTION:测试工程师 惠州/成都/深圳 本科可投；入口 z
+ haopin.tcl.com/industries；简历用 定制简历（已备好） 改意
+ 向
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】TCL实业 网申（大显示制造管
+ 理平台）
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】TCL实业 网申（大显示制造管理
+ 平台）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:93d21aef71071cd1@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261027T090000
+DTEND;TZID=Asia/Shanghai:20261027T093000
+SUMMARY:【截止】创维集团 网申（湖大站口径）
+DESCRIPTION:测试开发工程师（深圳）不限六级；软件测试
+ 工程师（深圳/武汉）要求英语六级；入口 skyworth.hotjob.
+ cn 每账号可投2个志愿
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】创维集团 网申（湖大站口径
+ ）
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】创维集团 网申（湖大站口径）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:5a6de1fd64be9178@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261104T090000
+DTEND;TZID=Asia/Shanghai:20261104T093000
+SUMMARY:【计划·第七批投递】本次新发现的深圳中小厂 
+ 锐明技术 信锐技术 精智达
+DESCRIPTION:锐明 streamax.zhiye.com/campus（汽车电子·座舱 2100
+ 余人）｜信锐 hr.sundray.com.cn（深信服子公司 JD明写Python
+ +pytest）｜精智达 seichitech.com（11-30截止）；三家均本科
+ 可投+软件测试/测试开发
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【计划·第七批投递】本次新发现的
+ 深圳中小厂 锐明技术 信锐技术 精智达
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·第七批投递】本次新发现的深圳
+ 中小厂 锐明技术 信锐技术 精智达
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:91461622f101bb88@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261130T090000
+DTEND;TZID=Asia/Shanghai:20261130T093000
+SUMMARY:【截止】精智达 测试开发工程师 网申
+DESCRIPTION:深圳 500-1000人 本科及以上 半导体测试检测设
+ 备；入口 www.seichitech.com「加入精智达」或 hr@seichitech.co
+ m
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】精智达 测试开发工程师 网
+ 申
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】精智达 测试开发工程师 网申
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:363db64fb788072d@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261231T090000
+DTEND;TZID=Asia/Shanghai:20261231T093000
+SUMMARY:【截止】龙旗科技 网申截止
+DESCRIPTION:测试工程师（软件/硬件/可靠性/组包/装备）
+ 上海/深圳/惠州 最多投3个职位；入口 longcheerzp1.zhiye.com
+ ；简历用 定制简历（已备好）
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】龙旗科技 网申截止
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】龙旗科技 网申截止
+END:VALARM
+END:VEVENT
 END:VCALENDAR
