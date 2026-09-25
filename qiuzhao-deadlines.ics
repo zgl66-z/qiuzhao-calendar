@@ -682,4 +682,133 @@ ACTION:DISPLAY
 DESCRIPTION:明天 【截止】龙旗科技 网申截止
 END:VALARM
 END:VEVENT
+BEGIN:VEVENT
+UID:963011c08f44642d@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261008T090000
+DTEND;TZID=Asia/Shanghai:20261008T093000
+SUMMARY:【计划·新发现投递（一）深圳线】汇顶科技 理
+ 邦仪器 影石Insta360 海柔创新 优必选 拓邦股份 峰岹科
+ 技
+DESCRIPTION:7 家均 2027届+本科可投+深圳有测试岗：汇顶 go
+ odix.zhiye.com/Campus（测试开发）｜理邦 xyz.51job.com（整机
+ 测试+超声声功率 坪山）｜影石 arashivision.jobs.feishu.cn/ca
+ mpus（产测 10月底截止）｜海柔 hairobotics.zhiye.com/campus（
+ 硬件测试 25-50W）｜优必选 ubtrobot.zhiye.com/campus｜拓邦 ca
+ mpus.topband.com.cn（测试18人）｜峰岹 hr@fortiortech.com（ATE
+ ）
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【计划·新发现投递（一）深圳线】
+ 汇顶科技 理邦仪器 影石Insta360 海柔创新 优必选 拓邦
+ 股份 峰岹科技
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·新发现投递（一）深圳线】汇顶
+ 科技 理邦仪器 影石Insta360 海柔创新 优必选 拓邦股份 
+ 峰岹科技
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:382364061b2273b9@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261014T090000
+DTEND;TZID=Asia/Shanghai:20261014T093000
+SUMMARY:【计划·新发现投递（二）杭州上海厦门东莞线
+ 】中控技术 声网 绿联科技 谊安集团 亿联网络 普冉半
+ 导体 紫光同芯 东莞新能德 兆华电子 瀛通通讯
+DESCRIPTION:中控 app.mokahr.com/campus-recruitment/supcon/172631（杭
+ 州）｜声网 app.mokahr.com/campus_apply/agora/4789（上海 音频
+ 自动化测试）｜绿联 hrh5.ugreensmart.com/UgreenWeiXin/campus（
+ 深圳龙华）｜谊安 zhaopin@aeonmed.com（上海+深圳）｜亿联
+  yealink.zhiye.com/Campus（厦门 含音频测试）｜普冉 h2t8ckbsk
+ 1.jobs.feishu.cn/678396（上海/苏州）｜紫光同芯 hr@tsinghuaic.
+ com（无锡 ATE）｜新能德 nvtpower.zhiye.com/campus（东莞 要CE
+ T-6）｜兆华电子 杭州 学历口径待确认｜瀛通 recruitment@
+ yingtong-wire.com（东莞 声学/测试/DQA）
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【计划·新发现投递（二）杭州上海
+ 厦门东莞线】中控技术 声网 绿联科技 谊安集团 亿联
+ 网络 普冉半导体 紫光同芯 东莞新能德 兆华电子 瀛通
+ 通讯
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【计划·新发现投递（二）杭州上海厦门
+ 东莞线】中控技术 声网 绿联科技 谊安集团 亿联网络 
+ 普冉半导体 紫光同芯 东莞新能德 兆华电子 瀛通通讯
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:b94d5659a69d3a10@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261025T090000
+DTEND;TZID=Asia/Shanghai:20261025T093000
+SUMMARY:【截止·10月底】影石Insta360 简历投递
+DESCRIPTION:官方口径只写「10月底截止」未给具体日 此日
+ 为我设的提前提醒 请以官网为准；入口 arashivision.jobs.f
+ eishu.cn/campus；产测岗本科可投 要求 Python/C++ 与单板 射
+ 频 音频模块测试原理
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止·10月底】影石Insta360 简历投递
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止·10月底】影石Insta360 简历投递
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:00deffc2c9b7a41d@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261027T090000
+DTEND;TZID=Asia/Shanghai:20261027T093000
+SUMMARY:【截止·待确认】紫光同芯 网申（约10-27）
+DESCRIPTION:该日期来自高校就业网转载 未在官网核实 请
+ 以官网为准；ATE测试工程师 可靠性工程师 软件测试工
+ 程师 本科及以上 北京/西安/无锡/上海/武汉；入口 app.m
+ okahr.com/m/campus-recruitment/tsinghuaic/39656 或 hr@tsinghuaic.com
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止·待确认】紫光同芯 网申（约1
+ 0-27）
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止·待确认】紫光同芯 网申（约10-27
+ ）
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:74f50615e568ab50@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20261230T090000
+DTEND;TZID=Asia/Shanghai:20261230T093000
+SUMMARY:【截止】声网 Agora 自动化测试工程师 投递窗口
+DESCRIPTION:窗口 2026-05-20 至 12-30；上海杨浦 RTC音视频实
+ 验室与 Conversational AI 两方向 本科可投 12-20K×15薪；入
+ 口 app.mokahr.com/campus_apply/agora/4789 或 talent@shengwang.cn
+BEGIN:VALARM
+TRIGGER:-P6D
+ACTION:DISPLAY
+DESCRIPTION:提前6天 【截止】声网 Agora 自动化测试工程师
+  投递窗口
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:明天 【截止】声网 Agora 自动化测试工程师 投
+ 递窗口
+END:VALARM
+END:VEVENT
 END:VCALENDAR
