@@ -469,4 +469,26 @@ DESCRIPTION:明天 【计划】秋招补录扫尾 + 招银网络科技
  补录 + 中小硬件公司
 END:VALARM
 END:VEVENT
+BEGIN:VEVENT
+UID:504878747c608a5a@qiuzhao-local
+DTSTAMP:20260925T060000Z
+DTSTART;TZID=Asia/Shanghai:20260928T090000
+DTEND;TZID=Asia/Shanghai:20260928T093000
+SUMMARY:【每日投递】今天投 2~3 家中小厂
+DESCRIPTION:为什么投中小厂：大厂流程长、竞争激烈；中
+ 小厂响应快、面试机会多，既能练兵也能拿保底。名单
+ 从哪来：①前一晚 19:30 企业监控简报的「今日投递建
+ 议」；②监控日志里的「🆕 新发现企业」；③牛客/BOS
+ S直聘/智联搜深圳·杭州·上海·宁波的软件测试·测试
+ 开发·质量岗（本科可投、规模 100 人以上）。优先级
+ ：音频声学>汽车电子>消费电子>医疗器械·工控>其他。
+ 简历用 定制简历（已备好）。投完在 定制简历-秋招/
+ 秋招投递清单.md 第七节台账记一行。
+RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;UNTIL=20261231T155959Z
+BEGIN:VALARM
+TRIGGER:-PT5M
+ACTION:DISPLAY
+DESCRIPTION:今天：【每日投递】今天投 2~3 家中小厂
+END:VALARM
+END:VEVENT
 END:VCALENDAR
