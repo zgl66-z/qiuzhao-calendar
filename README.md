@@ -10,7 +10,7 @@
 https://raw.githubusercontent.com/zgl66-z/qiuzhao-calendar/main/qiuzhao-deadlines.ics
 ```
 
-内容由本机的秋招监控任务每天 19:30 检索并推送更新，**只追加、不删历史行**。
+内容由本机的秋招监控任务每天 17:00 检索并推送更新，**只追加、不删历史行**。
 
 ## 2. 配套的安卓 App（`app/`）
 

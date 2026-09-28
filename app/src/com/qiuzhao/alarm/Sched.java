@@ -51,7 +51,7 @@ public final class Sched {
 
     public static final String CH_ID = "deadline_alarm";
 
-    /** 每日自动同步的闹钟 code（放在 20:05，等监控任务 19:30 跑完并推送之后再拉）。 */
+    /** 每日自动同步的闹钟 code（放在 20:05，等监控任务 17:00 跑完并推送之后再拉）。 */
     public static final int SYNC_CODE = 880011;
     private static final int SYNC_HOUR = 20;
     private static final int SYNC_MINUTE = 5;
