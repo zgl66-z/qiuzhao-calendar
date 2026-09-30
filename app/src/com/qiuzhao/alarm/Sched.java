@@ -29,8 +29,10 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,6 +47,11 @@ public final class Sched {
     public static final String KEY_LAST = "last_status";
     public static final String KEY_DISMISSED = "dismissed";
     public static final String KEY_REPEAT = "repeat_of";
+    /** dismiss() 时顺带发这个广播，让正在响铃的 AlarmActivity 停下。 */
+    public static final String ACTION_STOP = "com.qiuzhao.alarm.STOP";
+    /** code 分配表：排程键 -> int code（替代 hashCode，避免碰撞丢闹钟）。 */
+    public static final String KEY_CODE_MAP = "code_map";
+    public static final String KEY_CODE_SEQ = "code_seq";
 
     public static final String DEFAULT_URL =
             "https://cdn.jsdelivr.net/gh/zgl66-z/qiuzhao-calendar@main/qiuzhao-deadlines.ics";
@@ -501,6 +508,7 @@ public final class Sched {
         if (am == null) return 0;
         long now = System.currentTimeMillis();
         StringBuilder codes = new StringBuilder();
+        Set<String> usedKeys = new HashSet<String>();
         int n = 0;
 
         for (Event e : loadEvents(c)) {
@@ -510,7 +518,7 @@ public final class Sched {
                 for (int fi = 0; fi < e.offsets.size(); fi++) {
                     long fireAt = occAt + e.offsets.get(fi).longValue();
                     if (fireAt <= now + 5_000L) continue;
-                    int code = Math.abs((e.uid + "#" + oi + "#" + fi).hashCode());
+                    int code = codeFor(c, "ev|" + e.uid + "#" + oi + "#" + fi, usedKeys);
                     if (scheduleOne(c, am, codes, code, e.title, e.desc, fireAt)) n++;
                 }
             }
@@ -521,13 +529,66 @@ public final class Sched {
             for (int d = 0; d < 10; d++) {
                 long fireAt = nextAt(r.hour, r.minute, d, now);
                 if (fireAt <= now + 5_000L) continue;
-                int code = Math.abs(("rem|" + r.id() + "|" + d).hashCode());
+                int code = codeFor(c, "rem|" + r.id() + "|" + d, usedKeys);
                 if (scheduleOne(c, am, codes, code, r.title, "每日提醒", fireAt)) n++;
             }
         }
 
         p(c).edit().putString(KEY_CODES, codes.toString()).apply();
+        pruneCodeMap(c, usedKeys);
         return n;
+    }
+
+    /**
+     * 给排程键分配稳定的 int code。
+     * 原来用 String.hashCode()，碰撞后 PendingIntent(FLAG_UPDATE_CURRENT)
+     * 会悄悄覆盖另一个闹钟，导致某个截止日永远不响；且 Math.abs 在
+     * hashCode()==Integer.MIN_VALUE 时仍为负数。这里用持久化计数器分配，
+     * 同一 key 在多次 scheduleAll 中拿到的 code 保持不变。
+     */
+    static int codeFor(Context c, String key, Set<String> usedKeys) {
+        usedKeys.add(key);
+        SharedPreferences sp = p(c);
+        String raw = sp.getString(KEY_CODE_MAP, "");
+        JSONObject map;
+        try {
+            map = (raw == null || raw.isEmpty()) ? new JSONObject() : new JSONObject(raw);
+        } catch (Exception e) {
+            map = new JSONObject();
+        }
+        int code = map.optInt(key, 0);
+        if (code == 0) {
+            int seq = sp.getInt(KEY_CODE_SEQ, 1000) + 1;
+            if (seq > 879999) {
+                // 序号空间回绕：重建映射。旧闹钟已在 cancelAll() 里按 KEY_CODES
+                // 取消，这里重建是安全的；同时避开 880011/999001 等固定 code。
+                seq = 1001;
+                map = new JSONObject();
+            }
+            code = seq;
+            try {
+                map.put(key, code);
+            } catch (Exception ignore) { }
+            sp.edit().putString(KEY_CODE_MAP, map.toString()).putInt(KEY_CODE_SEQ, seq).apply();
+        }
+        return code;
+    }
+
+    /** 删掉本轮没用到的 code 映射，防止 KEY_CODE_MAP 无限增长。 */
+    static void pruneCodeMap(Context c, Set<String> usedKeys) {
+        SharedPreferences sp = p(c);
+        String raw = sp.getString(KEY_CODE_MAP, "");
+        if (raw == null || raw.isEmpty()) return;
+        try {
+            JSONObject map = new JSONObject(raw);
+            JSONObject keep = new JSONObject();
+            java.util.Iterator<String> it = map.keys();
+            while (it.hasNext()) {
+                String k = it.next();
+                if (usedKeys.contains(k)) keep.put(k, map.optInt(k));
+            }
+            sp.edit().putString(KEY_CODE_MAP, keep.toString()).apply();
+        } catch (Exception ignore) { }
     }
 
     // ---------------------------------------------------------------- 通知
@@ -644,6 +705,13 @@ public final class Sched {
         if (nm != null) nm.cancel(code);
         AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         if (am != null) am.cancel(alarmPi(c, code, "", "", 0L));
+        // 如果全屏闹钟页正在响，让它也停下（否则通知关了，铃声还在响）
+        Intent stop = new Intent(ACTION_STOP);
+        stop.setPackage(c.getPackageName());
+        stop.putExtra("code", code);
+        try {
+            c.sendBroadcast(stop);
+        } catch (Throwable ignore) { }
     }
 
     // ---------------------------------------------------------------- 同步

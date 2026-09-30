@@ -1,7 +1,10 @@
 package com.qiuzhao.alarm;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -29,6 +32,7 @@ public class AlarmActivity extends Activity {
     private MediaPlayer player;
     private Vibrator vibrator;
     private int code = 0;
+    private BroadcastReceiver stopReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,24 @@ public class AlarmActivity extends Activity {
         code = getIntent().getIntExtra("code", 0);
         if (title == null) title = "秋招截止提醒";
         if (desc == null) desc = "";
+
+        // 用户在通知上点「关闭提醒」时，正在响的全屏页也要停下
+        stopReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context ctx, Intent intent) {
+                if (Sched.ACTION_STOP.equals(intent.getAction())
+                        && intent.getIntExtra("code", -1) == code) {
+                    silence();
+                    finish();
+                }
+            }
+        };
+        IntentFilter stopFilter = new IntentFilter(Sched.ACTION_STOP);
+        if (Build.VERSION.SDK_INT >= 33) {
+            registerReceiver(stopReceiver, stopFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(stopReceiver, stopFilter);
+        }
 
         final float density = getResources().getDisplayMetrics().density;
         int dp = (int) (24 * density);
@@ -202,6 +224,9 @@ public class AlarmActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        try {
+            if (stopReceiver != null) unregisterReceiver(stopReceiver);
+        } catch (Throwable ignore) { }
         silence();
         super.onDestroy();
     }
