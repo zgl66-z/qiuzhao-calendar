@@ -28,8 +28,11 @@ jobs:
 
       - name: 准备 Android SDK 组件
         run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0" > /dev/null
+          echo "ANDROID_HOME=$ANDROID_HOME  ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          # --sdk_root 必须显式给：从 cmdline-tools/latest 启动时 sdkmanager
+          # 会把根目录误判成 $ANDROID_HOME/cmdline-tools，组件就装错位置了
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" --licenses > /dev/null 2>&1 || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0" | tail -3
 
       # 签名密钥从仓库 Secrets 里还原（base64 的 keystore.p12）。
       # 没配 secret 时 build.sh 会自动生成一把临时密钥——那种包和正式包签名不同，
