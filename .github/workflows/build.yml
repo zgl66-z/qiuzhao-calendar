@@ -1,0 +1,68 @@
+name: build-apk
+
+# 什么时候自动跑：
+#   1. push 到 main            —— 每次改动都出一次包，产物挂在 Actions 运行页面
+#   2. push v 开头的 tag（如 v1.1）—— 额外创建一个 GitHub Release，APK 挂上去供人下载
+#   3. 手动触发（Actions 页面的 Run workflow 按钮）
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  workflow_dispatch:
+
+# 发 Release 需要写 contents 权限
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 构建链只要 JDK + Android SDK 的 build-tools/platforms，不需要 Gradle
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: 准备 Android SDK 组件
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0" > /dev/null
+
+      # 签名密钥从仓库 Secrets 里还原（base64 的 keystore.p12）。
+      # 没配 secret 时 build.sh 会自动生成一把临时密钥——那种包和正式包签名不同，
+      # 不能覆盖安装，只能全新安装。
+      - name: 还原签名密钥
+        env:
+          KEYSTORE_P12: ${{ secrets.KEYSTORE_P12 }}
+        run: |
+          if [ -n "$KEYSTORE_P12" ]; then
+            echo "$KEYSTORE_P12" | base64 -d > app/keystore.p12
+            echo "已从 Secrets 还原正式签名密钥"
+          else
+            echo "::warning::未配置 KEYSTORE_P12，本次用临时密钥签名，包只能全新安装"
+          fi
+
+      - name: 构建 APK
+        run: bash app/build.sh
+
+      # 复制成 ASCII 文件名，避免 Release 附件在部分浏览器/工具里出现编码问题
+      - name: 整理产物
+        run: |
+          cp "app/别错过.apk" "app/biecuoguo.apk"
+          md5sum "app/biecuoguo.apk"
+
+      - name: 上传构建产物（Actions 页面可下载）
+        uses: actions/upload-artifact@v4
+        with:
+          name: biecuoguo-apk
+          path: app/biecuoguo.apk
+
+      - name: 发布 Release（仅打 tag 时）
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/biecuoguo.apk
+          generate_release_notes: true
