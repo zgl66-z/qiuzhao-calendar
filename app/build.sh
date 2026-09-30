@@ -9,8 +9,9 @@ if [ -f local.env ]; then . ./local.env; fi
 
 # 依次尝试：环境变量 → 各平台常见安装位置
 find_sdk() {
+  # 注意 set -u：Windows 专有变量（LOCALAPPDATA 等）必须带 :- 默认值，Linux/macOS 上没有
   for c in "${ANDROID_SDK_ROOT:-}" "${ANDROID_HOME:-}" \
-           "$LOCALAPPDATA/Android/Sdk" "$HOME/Android/Sdk" \
+           "${LOCALAPPDATA:-}/Android/Sdk" "$HOME/Android/Sdk" \
            "$HOME/Library/Android/sdk" "/usr/lib/android-sdk"; do
     if [ -n "$c" ] && [ -f "$c/platforms/android-35/android.jar" ]; then
       echo "$c"

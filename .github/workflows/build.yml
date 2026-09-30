@@ -28,11 +28,16 @@ jobs:
 
       - name: 准备 Android SDK 组件
         run: |
-          echo "ANDROID_HOME=$ANDROID_HOME  ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          SDKM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -f "$SDKM" ]; then echo "sdkmanager 不存在: $SDKM"; ls "$ANDROID_HOME/cmdline-tools" || true; exit 1; fi
           # --sdk_root 必须显式给：从 cmdline-tools/latest 启动时 sdkmanager
           # 会把根目录误判成 $ANDROID_HOME/cmdline-tools，组件就装错位置了
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" --licenses > /dev/null 2>&1 || true
-          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0" | tail -3
+          yes | "$SDKM" --sdk_root="$ANDROID_HOME" --licenses || true
+          # 不要管道进 tail/grep：那会吞掉 sdkmanager 的真实退出码，假成功
+          "$SDKM" --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0"
+          # 装完必须亲眼看到这两个文件，否则后面 build.sh 必挂
+          ls -la "$ANDROID_HOME/platforms/android-35/android.jar"
+          ls "$ANDROID_HOME/build-tools/35.0.0/aapt2"
 
       # 签名密钥从仓库 Secrets 里还原（base64 的 keystore.p12）。
       # 没配 secret 时 build.sh 会自动生成一把临时密钥——那种包和正式包签名不同，
