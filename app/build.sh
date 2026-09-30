@@ -50,6 +50,12 @@ rm -f 别错过.apk 别错过.apk.idsig
 rm -rf build
 mkdir -p build/classes build/dex
 
+# 版本号从 AndroidManifest.xml 读取：改版只改清单一处。
+# 不能在这里硬编码 --version-code/--version-name，aapt2 link 的参数会覆盖清单值。
+VCODE=$(grep -o 'android:versionCode="[0-9]*"' AndroidManifest.xml | grep -o '[0-9]*')
+VNAME=$(grep -o 'android:versionName="[^"]*"' AndroidManifest.xml | cut -d'"' -f2)
+echo "== 版本：$VNAME (versionCode $VCODE) =="
+
 echo "== 1. aapt2 compile（编译 res：图标资源）=="
 "$AAPT2" compile --dir res -o build/res.zip
 
@@ -62,7 +68,7 @@ echo "== 2. aapt2 link（打包 manifest + 资源，并生成 R.java）=="
   --java build/gen \
   --min-sdk-version 26 \
   --target-sdk-version 35 \
-  --version-code 1 --version-name 1.0
+  --version-code "$VCODE" --version-name "$VNAME"
 
 echo "== 3. javac（--release 8，只用框架 API）=="
 find src -name '*.java' > build/sources.txt
